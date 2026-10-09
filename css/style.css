@@ -70,13 +70,10 @@ p{margin:0 0 1em}
 .menu-open .burger span:nth-child(2){opacity:0}
 .menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-/* ---------- фірмова смуга-щітка ---------- */
-.brushbar{position:relative;display:block;height:16px;width:100%;max-width:520px;margin:44px 0 30px}
-.brushbar::before{content:"";position:absolute;left:0;top:0;bottom:0;right:58px;border-radius:16px;background:var(--bristle);border:4px solid currentColor;transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--ease)}
-.brushbar i{position:absolute;right:0;bottom:4px;width:70px;height:34px;border-radius:10px;background:var(--bristle);border:4px solid currentColor;opacity:0;transform:translateX(-30px) rotate(-8deg);transition:opacity .4s .8s,transform .7s .8s var(--ease)}
-.brushbar i::after{content:"";position:absolute;left:6px;right:6px;top:100%;height:12px;margin-top:4px;background:repeating-linear-gradient(90deg,currentColor 0 3px,transparent 3px 8px)}
-.is-in .brushbar::before,.brushbar.is-in::before{transform:scaleX(1)}
-.is-in .brushbar i,.brushbar.is-in i{opacity:1;transform:none}
+/* ---------- стриманий фірмовий акцент ---------- */
+.section-accent{display:block;width:72px;height:3px;margin:28px 0;border-radius:3px;background:var(--brush);transform-origin:left;transition:width .8s var(--ease)}
+.hero .section-accent,.phead .section-accent,.sec--ink .section-accent{background:var(--bristle)}
+.is-in .section-accent,.section-accent.is-in{width:96px}
 
 /* ---------- герой ---------- */
 .hero{background:var(--ink);color:#fff;position:relative;overflow:hidden}
@@ -88,7 +85,7 @@ p{margin:0 0 1em}
 .hero.is-in h1 .ln span{transform:none}
 .hero.is-in h1 .ln:nth-child(2) span{transition-delay:.12s}
 .hero.is-in h1 .ln:nth-child(3) span{transition-delay:.24s}
-.hero .brushbar{color:#fff}
+.hero .section-accent{color:#fff}
 .hero__lead{font-size:clamp(17px,1.6vw,20px);max-width:34em;color:#C9D6DE}
 .hero__lead b{color:#fff}
 .hero__cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
@@ -109,8 +106,8 @@ p{margin:0 0 1em}
 .sec__head{display:grid;grid-template-columns:1fr minmax(0,440px);gap:24px 60px;align-items:end;margin-bottom:48px}
 .sec__head p{color:var(--muted);margin:0}
 .sec--ink .sec__head p{color:#C9D6DE}
-.sec__head .brushbar{margin:40px 0 0;max-width:300px;color:var(--ink)}
-.sec--ink .sec__head .brushbar{color:#fff}
+.sec__head .section-accent{margin:24px 0 0;max-width:96px;color:var(--ink)}
+.sec--ink .sec__head .section-accent{color:#fff}
 
 /* переваги */
 .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:4px solid var(--ink)}
@@ -149,10 +146,23 @@ p{margin:0 0 1em}
 
 /* до/після */
 .ba{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:center}
-.ba__img{position:relative;border-radius:var(--r-l);overflow:hidden;max-width:400px;justify-self:center}
-.ba__img figcaption{position:absolute;left:14px;font:600 14px/1 "Manrope",sans-serif;background:#fff;padding:8px 12px;border-radius:999px}
-.ba__img figcaption:nth-of-type(1){top:14px}
-.ba__img figcaption:nth-of-type(2){top:calc(50% + 14px);background:var(--brush);color:#fff}
+.ba__img{width:100%;min-width:0;margin:0;justify-self:center}
+.compare{--split:50%;position:relative;aspect-ratio:700/521;overflow:hidden;border-radius:22px;background:var(--mint);touch-action:pan-y;user-select:none;cursor:ew-resize;isolation:isolate}
+.compare__layer{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.compare__layer img{position:absolute;left:0;width:100%;height:200%;max-width:none;pointer-events:none}
+.compare__before img{top:0}
+.compare__after img{bottom:0}
+.compare__before{z-index:1;clip-path:inset(0 calc(100% - var(--split)) 0 0)}
+.compare__divider{position:absolute;z-index:2;top:0;bottom:0;left:var(--split);width:2px;background:#fff;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 12px #0c182833}
+.compare__handle{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;box-shadow:0 4px 20px #0c182833}
+.compare__handle svg{width:24px;height:24px}
+.compare input{position:absolute;z-index:3;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.compare:focus-within{outline:3px solid var(--brush-deep);outline-offset:5px}
+.compare:focus-within .compare__handle{background:var(--mint)}
+.compare__caption{padding:16px 0 0}
+.compare__labels{display:flex;justify-content:space-between;gap:16px;font-size:13px;font-weight:700}
+.compare__labels span:last-child{text-align:right;color:var(--brush-deep)}
+.compare__hint{display:block;margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5}
 .ticks{list-style:none;padding:0;margin:0 0 30px}
 .ticks li{position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line)}
 .ticks li::before{content:"";position:absolute;left:0;top:16px;width:24px;height:12px;border-radius:6px;background:var(--bristle);border:3px solid var(--ink)}
@@ -220,7 +230,7 @@ p{margin:0 0 1em}
 .svc__img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
 .svc:hover .svc__img img{transform:scale(1.04)}
 .svc h2{font-size:clamp(34px,4.4vw,52px);margin-bottom:6px}
-.svc .brushbar{max-width:220px;margin:40px 0 22px;color:var(--ink)}
+.svc .section-accent{max-width:96px;margin:24px 0 22px;color:var(--ink)}
 .svc ul{padding-left:0;list-style:none;margin:0 0 24px}
 .svc li{position:relative;padding:7px 0 7px 26px}
 .svc li::before{content:"";position:absolute;left:0;top:16px;width:14px;height:6px;border-radius:3px;background:var(--brush)}
@@ -334,7 +344,6 @@ p{margin:0 0 1em}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .rv-up{opacity:1;transform:none}
   .hero h1 .ln span{transform:none}
-  .brushbar::before{transform:none}.brushbar i{opacity:1;transform:none}
 }
 .nav [data-mobile-call]{display:none}
 @media (max-width:900px){.menu-open .nav [data-mobile-call]{display:inline-flex}}

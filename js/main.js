@@ -17,13 +17,40 @@
   }
 
   // поява елементів при прокрутці
-  var targets=document.querySelectorAll('.rv-up, .brushbar, .hero, .reveal-group');
+  var targets=document.querySelectorAll('.rv-up, .section-accent, .hero, .reveal-group');
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){
       es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
     }, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
     targets.forEach(function(t){ io.observe(t); });
   } else { targets.forEach(function(t){ t.classList.add('is-in'); }); }
+
+  // Порівняння: зберігаємо пропорції фото, змінюємо лише область видимості.
+  document.querySelectorAll('[data-compare]').forEach(function(frame){
+    var range=frame.querySelector('input'), active=null;
+    function update(){
+      frame.style.setProperty('--split', range.value+'%');
+      range.setAttribute('aria-valuetext', 'До: '+range.value+'%, після: '+(100-range.value)+'%');
+    }
+    function move(e){
+      var rect=frame.getBoundingClientRect();
+      range.value=Math.round(Math.max(0,Math.min(100,(e.clientX-rect.left)/rect.width*100)));
+      update();
+    }
+    range.addEventListener('input',update);
+    range.addEventListener('pointerdown',function(e){
+      if(!e.isPrimary || e.button!==0) return;
+      e.preventDefault();
+      active=e.pointerId; range.focus({preventScroll:true});
+      range.setPointerCapture(active); move(e);
+    });
+    range.addEventListener('pointermove',function(e){if(e.pointerId===active) move(e);});
+    function finish(e){if(e.pointerId===active) active=null;}
+    range.addEventListener('pointerup',finish);
+    range.addEventListener('pointercancel',finish);
+    range.addEventListener('lostpointercapture',finish);
+    update();
+  });
 
   // сьогоднішній день у графіку
   var kp=new Intl.DateTimeFormat('en-US',{timeZone:'Europe/Kyiv',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()); var kv=function(k){return kp.find(function(p){return p.type===k;}).value;}; var d=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(kv('weekday')); // 0 — неділя
